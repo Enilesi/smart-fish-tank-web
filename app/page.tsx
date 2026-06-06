@@ -68,6 +68,11 @@ const mobileFeatures = [
 ];
 function BubbleDecor() {
   const bubbles = [
+    
+    { left: "68%", size: 92, delay: "0.4s", duration: "13.5s", startBottom: "50%" },
+    { left: "74%", size: 60, delay: "1.6s", duration: "11.4s", startBottom: "40%" },
+    { left: "38%", size: 50, delay: "0.4s", duration: "13.5s", startBottom: "50%" },
+    { left: "14%", size: 60, delay: "1.6s", duration: "11.4s", startBottom: "40%" },
     { left: "2%", size: 96, delay: "0s", duration: "14s", startBottom: "-10%" },
     { left: "7%", size: 72, delay: "1.2s", duration: "12s", startBottom: "8%" },
     { left: "12%", size: 56, delay: "2.4s", duration: "11s", startBottom: "22%" },
@@ -344,7 +349,7 @@ export default function Home() {
   position: "relative",
   overflow: "hidden",
   background:
-    "linear-gradient(135deg, #070015 0%, #06115C 100%, #020515 100%)",
+    "linear-gradient(135deg, #09001a 0%, #06115C 100%, #03071f 100%)",
 
   "@keyframes flowBackgroundA": {
     "0%": {
@@ -423,7 +428,7 @@ export default function Home() {
     position: "absolute",
     inset: "-18%",
     background:
-      "radial-gradient(circle at 8% 18%, rgba(188, 57, 255, 0.5), transparent 24%), radial-gradient(circle at 22% 76%, rgba(31, 137, 255, 0.5), transparent 26%), radial-gradient(circle at 48% 48%, rgba(0, 96, 255, 0.36), transparent 24%), radial-gradient(circle at 78% 24%, rgba(61, 13, 196, 0.5), transparent 30%), radial-gradient(circle at 96% 70%, rgba(98, 0, 255, 0.28), transparent 24%)",
+      "radial-gradient(circle at 8% 18%, rgba(170, 60, 255, 0.5), transparent 24%), radial-gradient(circle at 22% 76%, rgba(31, 137, 255, 0.5), transparent 26%), radial-gradient(circle at 48% 48%, rgba(0, 96, 255, 0.36), transparent 24%), radial-gradient(circle at 78% 24%, rgba(61, 13, 196, 0.5), transparent 30%), radial-gradient(circle at 96% 70%, rgba(98, 0, 255, 0.28), transparent 24%)",
     filter: "blur(42px)",
     opacity: 0.95,
     animation: "flowBackgroundA 12s ease-in-out infinite alternate",
@@ -460,7 +465,6 @@ export default function Home() {
         sx={{
           position: "absolute",
           inset: 16,
-          border: "1px solid rgba(255, 255, 255, 0.09)",
           borderRadius: "34px",
           pointerEvents: "none",
           zIndex: 0
@@ -605,24 +609,6 @@ export default function Home() {
                 alignItems: { xs: "center", md: "flex-start" }
               }}
             >
-              <Chip
-                icon={<CloudQueueRounded sx={{ fontSize: 16 }} />}
-                label="IoT + Cloud + AI Aquarium Monitoring"
-                sx={{
-                  width: "fit-content",
-                  height: 34,
-                  px: 1,
-                  color: "#F7F8FF",
-                  background: "rgba(255, 255, 255, 0.11)",
-                  border: "1px solid rgba(255, 255, 255, 0.2)",
-                  backdropFilter: "blur(18px)",
-                  "& .MuiChip-label": {
-                    px: 1,
-                    fontSize: "0.78rem",
-                    fontWeight: 800
-                  }
-                }}
-              />
 
               <Typography
                 variant="h1"
