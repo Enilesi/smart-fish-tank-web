@@ -69,8 +69,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: "none",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          boxShadow: "0 24px 80px rgba(0, 0, 0, 0.45)",
+          boxShadow: "0 24px 80px rgba(11, 11, 11, 0.45)",
           backdropFilter: "blur(24px)"
         }
       }

@@ -66,6 +66,108 @@ const mobileFeatures = [
   "Toggle light",
   "Ask AI quickly"
 ];
+function BubbleDecor() {
+  const bubbles = [
+    { left: "2%", size: 96, delay: "0s", duration: "14s", startBottom: "-10%" },
+    { left: "7%", size: 72, delay: "1.2s", duration: "12s", startBottom: "8%" },
+    { left: "12%", size: 56, delay: "2.4s", duration: "11s", startBottom: "22%" },
+    { left: "18%", size: 88, delay: "0.8s", duration: "13s", startBottom: "-6%" },
+    { left: "24%", size: 64, delay: "2s", duration: "10.5s", startBottom: "14%" },
+    { left: "30%", size: 104, delay: "3.2s", duration: "15s", startBottom: "2%" },
+    { left: "68%", size: 92, delay: "0.4s", duration: "13.5s", startBottom: "-8%" },
+    { left: "74%", size: 60, delay: "1.6s", duration: "11.4s", startBottom: "18%" },
+    { left: "80%", size: 84, delay: "2.8s", duration: "12.8s", startBottom: "6%" },
+    { left: "86%", size: 56, delay: "1s", duration: "10.8s", startBottom: "26%" },
+    { left: "92%", size: 100, delay: "3.6s", duration: "14.5s", startBottom: "-4%" },
+    { left: "97%", size: 68, delay: "2.2s", duration: "11.8s", startBottom: "12%" },
+    { left: "2%", size: 96, delay: "0s", duration: "14s", startBottom: "-10%" },
+    { left: "7%", size: 72, delay: "1.2s", duration: "12s", startBottom: "8%" },
+    { left: "12%", size: 56, delay: "2.4s", duration: "11s", startBottom: "22%" },
+    { left: "18%", size: 88, delay: "0.8s", duration: "13s", startBottom: "-6%" },
+    { left: "24%", size: 64, delay: "2s", duration: "10.5s", startBottom: "14%" },
+    { left: "30%", size: 104, delay: "3.2s", duration: "15s", startBottom: "2%" },
+    { left: "68%", size: 92, delay: "0.4s", duration: "13.5s", startBottom: "-8%" },
+    { left: "74%", size: 60, delay: "1.6s", duration: "11.4s", startBottom: "18%" },
+    { left: "80%", size: 84, delay: "2.8s", duration: "12.8s", startBottom: "6%" },
+    { left: "86%", size: 56, delay: "1s", duration: "10.8s", startBottom: "26%" },
+    { left: "92%", size: 100, delay: "3.6s", duration: "14.5s", startBottom: "-4%" },
+    { left: "97%", size: 68, delay: "2.2s", duration: "11.8s", startBottom: "12%" }
+  ];
+
+  return (
+    <Box
+      sx={{
+        position: "absolute",
+        inset: 0,
+        overflow: "hidden",
+        pointerEvents: "none",
+        zIndex: 1
+      }}
+    >
+      {bubbles.map((bubble, index) => (
+        <Box
+          key={index}
+          sx={{
+            position: "absolute",
+            left: bubble.left,
+            bottom: bubble.startBottom,
+            width: bubble.size,
+            height: bubble.size,
+            borderRadius: "50%",
+            background: "rgba(195, 216, 232, 0.9)",
+            border: "1.5px solid rgba(255,255,255,0.5)",
+            opacity: 0,
+            animation: `bubbleRise ${bubble.duration} linear infinite`,
+            animationDelay: bubble.delay,
+            boxShadow:
+              "0 0 24px rgba(195, 216, 232, 0.2), inset 0 0 12px rgba(255,255,255,0.22)",
+            overflow: "hidden"
+          }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              left: bubble.size * 0.07,
+              bottom: bubble.size * 0.07,
+              width: bubble.size * 0.70,
+              height: bubble.size * 0.70,
+              background: "#7589ae",
+              borderRadius: "48% 52% 58% 42% / 52% 42% 58% 48%",
+              transform: "rotate(18deg)"
+            }}
+          />
+
+          <Box
+            sx={{
+              position: "absolute",
+              top: bubble.size * 0.11,
+              left: bubble.size * 0.18,
+              width: bubble.size * 0.16,
+              height: bubble.size * 0.16,
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.58)"
+            }}
+          />
+
+          <Box
+            sx={{
+              position: "absolute",
+              top: bubble.size * 0.1,
+              right: bubble.size * 0.1,
+              width: bubble.size * 0.22,
+              height: bubble.size * 0.46,
+              borderRadius: "50%",
+              border: `${Math.max(2, bubble.size * 0.045)}px solid rgba(255,255,255,0.42)`,
+              borderLeft: "none",
+              borderBottom: "none",
+              transform: "rotate(-28deg)"
+            }}
+          />
+        </Box>
+      ))}
+    </Box>
+  );
+}
 
 function CoralDecor() {
   return (
@@ -102,8 +204,8 @@ function CoralDecor() {
             y2="230"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stopColor="#B93BFF" />
-            <stop offset="1" stopColor="#FF5ACD" />
+            <stop stopColor="#3bff5c" />
+            <stop offset="1" stopColor="#13703d" />
           </linearGradient>
           <linearGradient
             id="coralBlue"
@@ -238,12 +340,108 @@ export default function Home() {
   return (
     <Box
       sx={{
-        minHeight: "100vh",
-        position: "relative",
-        overflow: "hidden",
-        background:
-          "radial-gradient(circle at 12% 12%, rgba(177, 43, 255, 0.62), transparent 30%), radial-gradient(circle at 18% 72%, rgba(21, 129, 255, 0.72), transparent 34%), radial-gradient(circle at 58% 48%, rgba(0, 87, 255, 0.55), transparent 30%), radial-gradient(circle at 88% 30%, rgba(36, 0, 130, 0.86), transparent 38%), linear-gradient(135deg, #090018 0%, #07115A 48%, #020515 100%)"
-      }}
+  minHeight: "100vh",
+  position: "relative",
+  overflow: "hidden",
+  background:
+    "linear-gradient(135deg, #070015 0%, #06115C 100%, #020515 100%)",
+
+  "@keyframes flowBackgroundA": {
+    "0%": {
+      transform: "translate3d(-18%, -4%, 0) scale(1.15) rotate(0deg)"
+    },
+    "35%": {
+      transform: "translate3d(4%, 3%, 0) scale(1.25) rotate(2deg)"
+    },
+    "70%": {
+      transform: "translate3d(18%, -2%, 0) scale(1.18) rotate(-2deg)"
+    },
+    "100%": {
+      transform: "translate3d(30%, 4%, 0) scale(1.22) rotate(1deg)"
+    }
+  },
+
+  "@keyframes flowBackgroundB": {
+    "0%": {
+      transform: "translate3d(-28%, 3%, 0) scale(1.2) rotate(-2deg)"
+    },
+    "40%": {
+      transform: "translate3d(-5%, -4%, 0) scale(1.32) rotate(1deg)"
+    },
+    "75%": {
+      transform: "translate3d(14%, 5%, 0) scale(1.24) rotate(3deg)"
+    },
+    "100%": {
+      transform: "translate3d(32%, -2%, 0) scale(1.28) rotate(-1deg)"
+    }
+  },
+
+  "@keyframes waterWave": {
+    "0%": {
+      transform: "translateX(-12%) skewX(-8deg)"
+    },
+    "50%": {
+      transform: "translateX(8%) skewX(7deg)"
+    },
+    "100%": {
+      transform: "translateX(24%) skewX(-6deg)"
+    }
+  },
+
+  "@keyframes bubbleRise": {
+  "0%": {
+    transform: "translateY(0) translateX(0) scale(0.72)",
+    opacity: 0
+  },
+  "10%": {
+    opacity: 0.9
+  },
+  "25%": {
+    transform: "translateY(-22vh) translateX(12px) scale(1.06)",
+    opacity: 0.95
+  },
+  "45%": {
+    transform: "translateY(-46vh) translateX(-14px) scale(0.92)",
+    opacity: 0.82
+  },
+  "68%": {
+    transform: "translateY(-76vh) translateX(16px) scale(1.15)",
+    opacity: 0.62
+  },
+  "85%": {
+    transform: "translateY(-98vh) translateX(-10px) scale(0.88)",
+    opacity: 0.42
+  },
+  "100%": {
+    transform: "translateY(-118vh) translateX(12px) scale(1.2)",
+    opacity: 0
+  }
+},
+
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: "-18%",
+    background:
+      "radial-gradient(circle at 8% 18%, rgba(188, 57, 255, 0.5), transparent 24%), radial-gradient(circle at 22% 76%, rgba(31, 137, 255, 0.5), transparent 26%), radial-gradient(circle at 48% 48%, rgba(0, 96, 255, 0.36), transparent 24%), radial-gradient(circle at 78% 24%, rgba(61, 13, 196, 0.5), transparent 30%), radial-gradient(circle at 96% 70%, rgba(98, 0, 255, 0.28), transparent 24%)",
+    filter: "blur(42px)",
+    opacity: 0.95,
+    animation: "flowBackgroundA 12s ease-in-out infinite alternate",
+    pointerEvents: "none"
+  },
+
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    inset: "-24%",
+    background:
+      "radial-gradient(circle at 0% 50%, rgba(92, 35, 255, 0.22), transparent 24%), radial-gradient(circle at 32% 20%, rgba(221, 68, 255, 0.22), transparent 25%), radial-gradient(circle at 58% 78%, rgba(34, 128, 255, 0.28), transparent 26%), radial-gradient(circle at 88% 42%, rgba(0, 70, 255, 0.24), transparent 28%)",
+    filter: "blur(62px)",
+    opacity: 0.9,
+    animation: "flowBackgroundB 15s ease-in-out infinite alternate",
+    pointerEvents: "none"
+  }
+}}
     >
       <Box
         sx={{
@@ -251,9 +449,12 @@ export default function Home() {
           inset: 0,
           background:
             "linear-gradient(90deg, rgba(5, 8, 20, 0.22), rgba(5, 8, 20, 0.34)), radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.48) 88%)",
-          pointerEvents: "none"
+          pointerEvents: "none",
+          zIndex: 0
         }}
       />
+
+      <BubbleDecor />
 
       <Box
         sx={{
@@ -261,7 +462,8 @@ export default function Home() {
           inset: 16,
           border: "1px solid rgba(255, 255, 255, 0.09)",
           borderRadius: "34px",
-          pointerEvents: "none"
+          pointerEvents: "none",
+          zIndex: 0
         }}
       />
 
@@ -482,7 +684,7 @@ export default function Home() {
                     px: 3,
                     color: "#FFFFFF",
                     background:
-                      "linear-gradient(135deg, rgba(95, 75, 255, 0.95), rgba(117, 69, 255, 0.95))",
+                      "linear-gradient(135deg, rgba(48, 81, 228, 0.95), rgba(75, 69, 255, 0.95))",
                     boxShadow: "0 12px 34px rgba(84, 76, 255, 0.28)",
                     "&:hover": {
                       background:
@@ -585,8 +787,10 @@ export default function Home() {
           {features.map((feature) => (
             <Card
               key={feature.title}
-              sx={{
-                background: "rgba(6, 10, 32, 0.58)"
+              sx={{ 
+                background: "rgba(18, 25, 60, 0.82)",
+                border: "3px solid rgba(255, 255, 255, 0.12)",
+                backdropFilter: "blur(18px)"
               }}
             >
               <CardContent sx={{ p: 3 }}>
@@ -620,7 +824,7 @@ export default function Home() {
 
                 <Typography
                   sx={{
-                    color: "rgba(247, 248, 255, 0.68)",
+                    color: "rgba(247, 248, 255, 0.72)",
                     lineHeight: 1.7,
                     fontSize: "0.95rem"
                   }}
@@ -643,7 +847,10 @@ export default function Home() {
           <Card
             sx={{
               background:
-                "linear-gradient(135deg, rgba(6, 10, 32, 0.72), rgba(20, 13, 62, 0.62))"
+                "linear-gradient(135deg, rgba(20, 28, 68, 0.88), rgba(30, 22, 78, 0.84))",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
+              boxShadow: "0 20px 46px rgba(0, 0, 0, 0.2)",
+              backdropFilter: "blur(18px)"
             }}
           >
             <CardContent sx={{ p: { xs: 3, md: 5 } }}>
@@ -666,7 +873,7 @@ export default function Home() {
                   mt: 2,
                   mb: 4,
                   maxWidth: 680,
-                  color: "rgba(247, 248, 255, 0.7)",
+                  color: "rgba(247, 248, 255, 0.74)",
                   fontSize: { xs: 15, md: 17 },
                   lineHeight: 1.8
                 }}
@@ -692,8 +899,8 @@ export default function Home() {
                       gap: 1.3,
                       p: 1.6,
                       borderRadius: "18px",
-                      background: "rgba(255, 255, 255, 0.07)",
-                      border: "1px solid rgba(255, 255, 255, 0.09)"
+                      background: "rgba(255, 255, 255, 0.08)",
+                      border: "1px solid rgba(255, 255, 255, 0.1)"
                     }}
                   >
                     <AutoAwesome sx={{ color: "#A735FF" }} />
@@ -707,7 +914,10 @@ export default function Home() {
           <Card
             sx={{
               background:
-                "linear-gradient(135deg, rgba(6, 10, 32, 0.72), rgba(7, 39, 98, 0.58))"
+                "linear-gradient(135deg, rgba(18, 30, 72, 0.88), rgba(18, 43, 92, 0.82))",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
+              boxShadow: "0 20px 46px rgba(0, 0, 0, 0.2)",
+              backdropFilter: "blur(18px)"
             }}
           >
             <CardContent sx={{ p: { xs: 3, md: 5 } }}>
@@ -729,7 +939,7 @@ export default function Home() {
                 sx={{
                   mt: 2,
                   mb: 4,
-                  color: "rgba(247, 248, 255, 0.7)",
+                  color: "rgba(247, 248, 255, 0.74)",
                   fontSize: { xs: 15, md: 17 },
                   lineHeight: 1.8
                 }}
@@ -748,8 +958,8 @@ export default function Home() {
                       gap: 1.3,
                       p: 1.6,
                       borderRadius: "18px",
-                      background: "rgba(255, 255, 255, 0.07)",
-                      border: "1px solid rgba(255, 255, 255, 0.09)"
+                      background: "rgba(255, 255, 255, 0.08)",
+                      border: "1px solid rgba(255, 255, 255, 0.1)"
                     }}
                   >
                     <WaterDropRounded sx={{ color: "#1E7BFF" }} />
