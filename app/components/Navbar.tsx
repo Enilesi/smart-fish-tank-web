@@ -31,11 +31,35 @@ export default function Navbar() {
       >
         <Box
           sx={{
+            display: { xs: "block", md: "none" },
             position: "absolute",
-            left: { xs: -92, md: -170 },
-            top: { xs: -92, md: -180 },
-            width: { xs: 390, md: 600 },
-            height: { xs: 250, md: 500 },
+            left: -92,
+            top: -92,
+            width: 390,
+            height: 250,
+            pointerEvents: "none"
+          }}
+        >
+          <Image
+            src="/logo1.png"
+            alt="Smart AI Fish Tank"
+            fill
+            priority
+            style={{
+              objectFit: "contain",
+              objectPosition: "left center"
+            }}
+          />
+        </Box>
+
+        <Box
+          sx={{
+            display: { xs: "none", md: "block" },
+            position: "absolute",
+            left: -170,
+            top: -180,
+            width: 600,
+            height: 500,
             pointerEvents: "none"
           }}
         >
@@ -103,7 +127,7 @@ export default function Navbar() {
 
         <Button
           component={Link}
-          href="/controls"
+          href="/"
           variant="contained"
           sx={{
             px: { xs: 2, sm: 2.6, md: 3.2 },
@@ -118,7 +142,7 @@ export default function Navbar() {
             }
           }}
         >
-          Controls
+          Home
         </Button>
       </Box>
     </Box>
