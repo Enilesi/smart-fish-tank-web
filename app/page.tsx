@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Navbar from "./components/Navbar";
 import {
   AutoAwesome,
   BarChartRounded,
-  CloudQueueRounded,
   NotificationsActiveRounded,
   PsychologyRounded,
   SettingsRemoteRounded,
@@ -17,7 +17,6 @@ import {
   Button,
   Card,
   CardContent,
-  Chip,
   Stack,
   Typography
 } from "@mui/material";
@@ -66,25 +65,13 @@ const mobileFeatures = [
   "Toggle light",
   "Ask AI quickly"
 ];
+
 function BubbleDecor() {
   const bubbles = [
-    
     { left: "68%", size: 92, delay: "0.4s", duration: "13.5s", startBottom: "50%" },
     { left: "74%", size: 60, delay: "1.6s", duration: "11.4s", startBottom: "40%" },
     { left: "38%", size: 50, delay: "0.4s", duration: "13.5s", startBottom: "50%" },
     { left: "14%", size: 60, delay: "1.6s", duration: "11.4s", startBottom: "40%" },
-    { left: "2%", size: 96, delay: "0s", duration: "14s", startBottom: "-10%" },
-    { left: "7%", size: 72, delay: "1.2s", duration: "12s", startBottom: "8%" },
-    { left: "12%", size: 56, delay: "2.4s", duration: "11s", startBottom: "22%" },
-    { left: "18%", size: 88, delay: "0.8s", duration: "13s", startBottom: "-6%" },
-    { left: "24%", size: 64, delay: "2s", duration: "10.5s", startBottom: "14%" },
-    { left: "30%", size: 104, delay: "3.2s", duration: "15s", startBottom: "2%" },
-    { left: "68%", size: 92, delay: "0.4s", duration: "13.5s", startBottom: "-8%" },
-    { left: "74%", size: 60, delay: "1.6s", duration: "11.4s", startBottom: "18%" },
-    { left: "80%", size: 84, delay: "2.8s", duration: "12.8s", startBottom: "6%" },
-    { left: "86%", size: 56, delay: "1s", duration: "10.8s", startBottom: "26%" },
-    { left: "92%", size: 100, delay: "3.6s", duration: "14.5s", startBottom: "-4%" },
-    { left: "97%", size: 68, delay: "2.2s", duration: "11.8s", startBottom: "12%" },
     { left: "2%", size: 96, delay: "0s", duration: "14s", startBottom: "-10%" },
     { left: "7%", size: 72, delay: "1.2s", duration: "12s", startBottom: "8%" },
     { left: "12%", size: 56, delay: "2.4s", duration: "11s", startBottom: "22%" },
@@ -134,8 +121,8 @@ function BubbleDecor() {
               position: "absolute",
               left: bubble.size * 0.07,
               bottom: bubble.size * 0.07,
-              width: bubble.size * 0.70,
-              height: bubble.size * 0.70,
+              width: bubble.size * 0.7,
+              height: bubble.size * 0.7,
               background: "#7589ae",
               borderRadius: "48% 52% 58% 42% / 52% 42% 58% 48%",
               transform: "rotate(18deg)"
@@ -341,112 +328,513 @@ function CoralDecor() {
   );
 }
 
+function PlatformSection() {
+  return (
+    <Box sx={{ pb: 10 }}>
+      <Stack
+        sx={{
+          mb: 5,
+          alignItems: "center",
+          textAlign: "center",
+          gap: 1.4
+        }}
+      >
+        <Typography
+          sx={{
+            color: "rgba(247, 248, 255, 0.52)",
+            fontSize: "0.78rem",
+            fontWeight: 900,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase"
+          }}
+        >
+          Platform split
+        </Typography>
+
+        <Typography
+          sx={{
+            maxWidth: 760,
+            color: "#FFFFFF",
+            fontSize: { xs: "2.2rem", md: "3.6rem" },
+            fontWeight: 950,
+            letterSpacing: "-0.065em",
+            lineHeight: 0.98
+          }}
+        >
+          One aquarium. Two different ways to control it.
+        </Typography>
+
+        <Typography
+          sx={{
+            maxWidth: 680,
+            color: "rgba(247, 248, 255, 0.68)",
+            fontSize: { xs: "0.98rem", md: "1.08rem" },
+            lineHeight: 1.8
+          }}
+        >
+          The website is designed for analysis and configuration, while the
+          mobile app focuses on quick actions, alerts and emergency interactions.
+        </Typography>
+      </Stack>
+
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", lg: "1fr 1fr" },
+          gap: 3,
+          alignItems: "stretch"
+        }}
+      >
+        <Card
+          sx={{
+            position: "relative",
+            overflow: "hidden",
+            borderRadius: "38px",
+            minHeight: { xs: "auto", md: 620 }
+          }}
+        >
+          <CardContent
+            sx={{
+              p: { xs: 3, md: 5 },
+              height: "100%"
+            }}
+          >
+            <Stack sx={{ height: "100%", gap: 4 }}>
+              <Stack sx={{ gap: 2 }}>
+                <Stack
+                  direction="row"
+                  sx={{
+                    alignItems: "center",
+                    gap: 1.5
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 46,
+                      height: 46,
+                      borderRadius: "16px",
+                      display: "grid",
+                      placeItems: "center",
+                      background: "rgba(85, 242, 194, 0.12)"
+                    }}
+                  >
+                    <WavesRounded sx={{ color: "#55F2C2" }} />
+                  </Box>
+
+                  <Typography
+                    sx={{
+                      color: "#FFFFFF",
+                      fontSize: { xs: 32, md: 46 },
+                      fontWeight: 950,
+                      letterSpacing: "-0.065em"
+                    }}
+                  >
+                    Web app
+                  </Typography>
+                </Stack>
+
+                <Typography
+                  sx={{
+                    maxWidth: 680,
+                    color: "rgba(247, 248, 255, 0.74)",
+                    fontSize: { xs: 15, md: 17 },
+                    lineHeight: 1.8
+                  }}
+                >
+                  The website should feel like the complete command center:
+                  bigger graphs, deeper AI analysis, reports, device logs and
+                  automation settings.
+                </Typography>
+              </Stack>
+
+              <Box
+                sx={{
+                  p: 2,
+                  borderRadius: "30px",
+                  background: "rgba(2, 6, 24, 0.36)"
+                }}
+              >
+                <Box
+                  sx={{
+                    minHeight: { xs: 230, sm: 260 },
+                    borderRadius: "24px",
+                    p: 2,
+                    background: "rgba(5, 10, 35, 0.86)",
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr 1fr" },
+                    gap: 1.5
+                  }}
+                >
+                  {[
+                    { label: "Temperature", value: "24.8°C", color: "#55F2C2" },
+                    { label: "pH Level", value: "7.1", color: "#1E7BFF" },
+                    { label: "Water Level", value: "91%", color: "#A735FF" }
+                  ].map((item) => (
+                    <Box
+                      key={item.label}
+                      sx={{
+                        p: 1.7,
+                        borderRadius: "20px",
+                        background: "rgba(255, 255, 255, 0.07)",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        minHeight: 130
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          color: "rgba(247,248,255,0.58)",
+                          fontSize: 13,
+                          fontWeight: 700
+                        }}
+                      >
+                        {item.label}
+                      </Typography>
+
+                      <Typography
+                        sx={{
+                          color: "#FFFFFF",
+                          fontSize: 28,
+                          fontWeight: 950,
+                          letterSpacing: "-0.05em"
+                        }}
+                      >
+                        {item.value}
+                      </Typography>
+
+                      <Box
+                        sx={{
+                          height: 7,
+                          borderRadius: 999,
+                          background: item.color
+                        }}
+                      />
+                    </Box>
+                  ))}
+                </Box>
+              </Box>
+
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                  gap: 1.4
+                }}
+              >
+                {webFeatures.map((item) => (
+                  <Box
+                    key={item}
+                    sx={{
+                      p: 1.8,
+                      borderRadius: "22px",
+                      background: "rgba(255, 255, 255, 0.07)"
+                    }}
+                  >
+                    <Stack
+                      direction="row"
+                      sx={{
+                        alignItems: "center",
+                        gap: 1.2
+                      }}
+                    >
+                      <AutoAwesome sx={{ color: "#A735FF", fontSize: 21 }} />
+
+                      <Typography
+                        sx={{
+                          color: "#FFFFFF",
+                          fontWeight: 800
+                        }}
+                      >
+                        {item}
+                      </Typography>
+                    </Stack>
+                  </Box>
+                ))}
+              </Box>
+            </Stack>
+          </CardContent>
+        </Card>
+
+        <Card
+          sx={{
+            position: "relative",
+            overflow: "hidden",
+            borderRadius: "38px",
+            minHeight: { xs: "auto", md: 620 }
+          }}
+        >
+          <CardContent
+            sx={{
+              p: { xs: 3, md: 5 },
+              height: "100%"
+            }}
+          >
+            <Stack
+              sx={{
+                height: "100%",
+                gap: 4,
+                alignItems: "center"
+              }}
+            >
+              <Stack
+                sx={{
+                  gap: 2,
+                  width: "100%"
+                }}
+              >
+                <Stack
+                  direction="row"
+                  sx={{
+                    alignItems: "center",
+                    gap: 1.5
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 46,
+                      height: 46,
+                      borderRadius: "16px",
+                      display: "grid",
+                      placeItems: "center",
+                      background: "rgba(30, 123, 255, 0.14)"
+                    }}
+                  >
+                    <SmartphoneRounded sx={{ color: "#1E7BFF" }} />
+                  </Box>
+
+                  <Typography
+                    sx={{
+                      color: "#FFFFFF",
+                      fontSize: { xs: 32, md: 46 },
+                      fontWeight: 950,
+                      letterSpacing: "-0.065em"
+                    }}
+                  >
+                    Mobile app
+                  </Typography>
+                </Stack>
+
+                <Typography
+                  sx={{
+                    color: "rgba(247, 248, 255, 0.74)",
+                    fontSize: { xs: 15, md: 17 },
+                    lineHeight: 1.8
+                  }}
+                >
+                  The mobile version should stay fast and simple: emergency
+                  alerts, quick status, and one-tap actions.
+                </Typography>
+              </Stack>
+
+              <Box
+                sx={{
+                  width: { xs: "100%", sm: 260 },
+                  maxWidth: 260,
+                  minHeight: { xs: 390, sm: 430 },
+                  borderRadius: "40px",
+                  p: 1.4,
+                  background: "rgba(255,255,255,0.08)"
+                }}
+              >
+                <Box
+                  sx={{
+                    minHeight: { xs: 368, sm: 408 },
+                    borderRadius: "31px",
+                    p: 2,
+                    background: "rgba(7, 16, 52, 0.96)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 1.25
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 58,
+                      height: 6,
+                      borderRadius: 999,
+                      background: "rgba(255,255,255,0.18)",
+                      mx: "auto",
+                      mb: 1
+                    }}
+                  />
+
+                  <Box
+                    sx={{
+                      p: 1.4,
+                      mb: 1,
+                      borderRadius: "20px",
+                      background: "rgba(30, 123, 255, 0.18)"
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "rgba(247, 248, 255, 0.62)",
+                        fontSize: 12,
+                        fontWeight: 800
+                      }}
+                    >
+                      Aquarium status
+                    </Typography>
+
+                    <Typography
+                      sx={{
+                        color: "#FFFFFF",
+                        fontSize: 26,
+                        fontWeight: 950,
+                        letterSpacing: "-0.05em"
+                      }}
+                    >
+                      Stable
+                    </Typography>
+                  </Box>
+
+                  {mobileFeatures.map((item) => (
+                    <Box
+                      key={item}
+                      sx={{
+                        p: 1.25,
+                        borderRadius: "17px",
+                        background: "rgba(255, 255, 255, 0.07)"
+                      }}
+                    >
+                      <Stack
+                        direction="row"
+                        sx={{
+                          alignItems: "center",
+                          gap: 1
+                        }}
+                      >
+                        <WaterDropRounded sx={{ color: "#1E7BFF", fontSize: 18 }} />
+
+                        <Typography
+                          sx={{
+                            color: "#FFFFFF",
+                            fontWeight: 800,
+                            fontSize: "0.9rem"
+                          }}
+                        >
+                          {item}
+                        </Typography>
+                      </Stack>
+                    </Box>
+                  ))}
+                </Box>
+              </Box>
+            </Stack>
+          </CardContent>
+        </Card>
+      </Box>
+    </Box>
+  );
+}
+
 export default function Home() {
   return (
     <Box
       sx={{
-  minHeight: "100vh",
-  position: "relative",
-  overflow: "hidden",
-  background:
-    "linear-gradient(135deg, #0a001b 0%, #06115C 100%, #03071f 100%)",
+        minHeight: "100vh",
+        position: "relative",
+        overflow: "hidden",
+        background:
+          "linear-gradient(135deg, #0a001b 0%, #06115C 100%, #03071f 100%)",
 
-  "@keyframes flowBackgroundA": {
-    "0%": {
-      transform: "translate3d(-18%, -4%, 0) scale(1.15) rotate(0deg)"
-    },
-    "35%": {
-      transform: "translate3d(4%, 3%, 0) scale(1.25) rotate(2deg)"
-    },
-    "70%": {
-      transform: "translate3d(18%, -2%, 0) scale(1.18) rotate(-2deg)"
-    },
-    "100%": {
-      transform: "translate3d(30%, 4%, 0) scale(1.22) rotate(1deg)"
-    }
-  },
+        "@keyframes flowBackgroundA": {
+          "0%": {
+            transform: "translate3d(-18%, -4%, 0) scale(1.15) rotate(0deg)"
+          },
+          "35%": {
+            transform: "translate3d(4%, 3%, 0) scale(1.25) rotate(2deg)"
+          },
+          "70%": {
+            transform: "translate3d(18%, -2%, 0) scale(1.18) rotate(-2deg)"
+          },
+          "100%": {
+            transform: "translate3d(30%, 4%, 0) scale(1.22) rotate(1deg)"
+          }
+        },
 
-  "@keyframes flowBackgroundB": {
-    "0%": {
-      transform: "translate3d(-28%, 3%, 0) scale(1.2) rotate(-2deg)"
-    },
-    "40%": {
-      transform: "translate3d(-5%, -4%, 0) scale(1.32) rotate(1deg)"
-    },
-    "75%": {
-      transform: "translate3d(14%, 5%, 0) scale(1.24) rotate(3deg)"
-    },
-    "100%": {
-      transform: "translate3d(32%, -2%, 0) scale(1.28) rotate(-1deg)"
-    }
-  },
+        "@keyframes flowBackgroundB": {
+          "0%": {
+            transform: "translate3d(-28%, 3%, 0) scale(1.2) rotate(-2deg)"
+          },
+          "40%": {
+            transform: "translate3d(-5%, -4%, 0) scale(1.32) rotate(1deg)"
+          },
+          "75%": {
+            transform: "translate3d(14%, 5%, 0) scale(1.24) rotate(3deg)"
+          },
+          "100%": {
+            transform: "translate3d(32%, -2%, 0) scale(1.28) rotate(-1deg)"
+          }
+        },
 
-  "@keyframes waterWave": {
-    "0%": {
-      transform: "translateX(-12%) skewX(-8deg)"
-    },
-    "50%": {
-      transform: "translateX(8%) skewX(7deg)"
-    },
-    "100%": {
-      transform: "translateX(24%) skewX(-6deg)"
-    }
-  },
+        "@keyframes waterWave": {
+          "0%": {
+            transform: "translateX(-12%) skewX(-8deg)"
+          },
+          "50%": {
+            transform: "translateX(8%) skewX(7deg)"
+          },
+          "100%": {
+            transform: "translateX(24%) skewX(-6deg)"
+          }
+        },
 
-  "@keyframes bubbleRise": {
-  "0%": {
-    transform: "translateY(0) translateX(0) scale(0.72)",
-    opacity: 0
-  },
-  "10%": {
-    opacity: 0.9
-  },
-  "25%": {
-    transform: "translateY(-22vh) translateX(12px) scale(1.06)",
-    opacity: 0.95
-  },
-  "45%": {
-    transform: "translateY(-46vh) translateX(-14px) scale(0.92)",
-    opacity: 0.82
-  },
-  "68%": {
-    transform: "translateY(-76vh) translateX(16px) scale(1.15)",
-    opacity: 0.62
-  },
-  "85%": {
-    transform: "translateY(-98vh) translateX(-10px) scale(0.88)",
-    opacity: 0.42
-  },
-  "100%": {
-    transform: "translateY(-118vh) translateX(12px) scale(1.2)",
-    opacity: 0
-  }
-},
+        "@keyframes bubbleRise": {
+          "0%": {
+            transform: "translateY(0) translateX(0) scale(0.72)",
+            opacity: 0
+          },
+          "10%": {
+            opacity: 0.9
+          },
+          "25%": {
+            transform: "translateY(-22vh) translateX(12px) scale(1.06)",
+            opacity: 0.95
+          },
+          "45%": {
+            transform: "translateY(-46vh) translateX(-14px) scale(0.92)",
+            opacity: 0.82
+          },
+          "68%": {
+            transform: "translateY(-76vh) translateX(16px) scale(1.15)",
+            opacity: 0.62
+          },
+          "85%": {
+            transform: "translateY(-98vh) translateX(-10px) scale(0.88)",
+            opacity: 0.42
+          },
+          "100%": {
+            transform: "translateY(-118vh) translateX(12px) scale(1.2)",
+            opacity: 0
+          }
+        },
 
-  "&::before": {
-    content: '""',
-    position: "absolute",
-    inset: "-18%",
-    background:
-      "radial-gradient(circle at 8% 18%, rgba(76, 20, 141, 0.44), transparent 24%), radial-gradient(circle at 22% 76%, rgba(31, 137, 255, 0.5), transparent 26%), radial-gradient(circle at 48% 48%, rgba(0, 96, 255, 0.36), transparent 24%), radial-gradient(circle at 78% 24%, rgba(61, 13, 196, 0.5), transparent 30%), radial-gradient(circle at 96% 70%, rgba(98, 0, 255, 0.28), transparent 24%)",
-    filter: "blur(42px)",
-    opacity: 0.95,
-    animation: "flowBackgroundA 12s ease-in-out infinite alternate",
-    pointerEvents: "none"
-  },
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          inset: "-18%",
+          background:
+            "radial-gradient(circle at 8% 18%, rgba(76, 20, 141, 0.44), transparent 24%), radial-gradient(circle at 22% 76%, rgba(31, 137, 255, 0.5), transparent 26%), radial-gradient(circle at 48% 48%, rgba(0, 96, 255, 0.36), transparent 24%), radial-gradient(circle at 78% 24%, rgba(61, 13, 196, 0.5), transparent 30%), radial-gradient(circle at 96% 70%, rgba(98, 0, 255, 0.28), transparent 24%)",
+          filter: "blur(42px)",
+          opacity: 0.95,
+          animation: "flowBackgroundA 12s ease-in-out infinite alternate",
+          pointerEvents: "none"
+        },
 
-  "&::after": {
-    content: '""',
-    position: "absolute",
-    inset: "-24%",
-    background:
-      "radial-gradient(circle at 0% 50%, rgba(92, 35, 255, 0.22), transparent 24%), radial-gradient(circle at 32% 20%, rgba(183, 53, 212, 0.22), transparent 25%), radial-gradient(circle at 58% 78%, rgba(34, 128, 255, 0.28), transparent 26%), radial-gradient(circle at 88% 42%, rgba(0, 70, 255, 0.24), transparent 28%)",
-    filter: "blur(62px)",
-    opacity: 0.9,
-    animation: "flowBackgroundB 15s ease-in-out infinite alternate",
-    pointerEvents: "none"
-  }
-}}
+        "&::after": {
+          content: '""',
+          position: "absolute",
+          inset: "-24%",
+          background:
+            "radial-gradient(circle at 0% 50%, rgba(92, 35, 255, 0.22), transparent 24%), radial-gradient(circle at 32% 20%, rgba(183, 53, 212, 0.22), transparent 25%), radial-gradient(circle at 58% 78%, rgba(34, 128, 255, 0.28), transparent 26%), radial-gradient(circle at 88% 42%, rgba(0, 70, 255, 0.24), transparent 28%)",
+          filter: "blur(62px)",
+          opacity: 0.9,
+          animation: "flowBackgroundB 15s ease-in-out infinite alternate",
+          pointerEvents: "none"
+        }
+      }}
     >
       <Box
         sx={{
@@ -464,8 +852,21 @@ export default function Home() {
       <Box
         sx={{
           position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: { xs: "42%", md: "48%" },
+          background:
+            "linear-gradient(180deg, rgba(2, 5, 21, 0) 0%, rgba(1, 4, 18, 0.7) 45%, rgba(0, 2, 12, 0.96) 100%)",
+          pointerEvents: "none",
+          zIndex: 0
+        }}
+      />
+
+      <Box
+        sx={{
+          position: "absolute",
           inset: 16,
-          borderRadius: "34px",
           pointerEvents: "none",
           zIndex: 0
         }}
@@ -480,119 +881,17 @@ export default function Home() {
           minHeight: "100vh"
         }}
       >
-        <Box
-          sx={{
-            py: { xs: 2.5, md: 3 },
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 2
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 1.3
-            }}
-          >
-            <Box
-              sx={{
-                width: 42,
-                height: 42,
-                borderRadius: "50%",
-                display: "grid",
-                placeItems: "center",
-                background:
-                  "linear-gradient(135deg, rgba(80, 96, 255, 0.95), rgba(127, 63, 255, 0.95))",
-                boxShadow: "0 0 28px rgba(68, 111, 255, 0.38)"
-              }}
-            >
-              <WaterDropRounded sx={{ fontSize: 20 }} />
-            </Box>
-
-            <Typography
-              sx={{
-                fontSize: { xs: 17, md: 21 },
-                fontWeight: 900,
-                letterSpacing: "-0.045em",
-                color: "#FFFFFF"
-              }}
-            >
-              SmartAIFishTank
-            </Typography>
-          </Box>
-
-          <Box
-            sx={{
-              display: { xs: "none", md: "flex" },
-              alignItems: "center",
-              gap: 2
-            }}
-          >
-            <Button
-              component={Link}
-              href="/dashboard"
-              color="inherit"
-              sx={{
-                color: "#FFFFFF",
-                fontWeight: 800,
-                px: 2.2,
-                "&:hover": {
-                  background: "rgba(30, 123, 255, 0.16)",
-                  color: "#8DBDFF"
-                }
-              }}
-            >
-              Dashboard
-            </Button>
-
-            <Button
-              component={Link}
-              href="/ai"
-              color="inherit"
-              sx={{
-                color: "#FFFFFF",
-                fontWeight: 800,
-                px: 2.2,
-                "&:hover": {
-                  background: "rgba(30, 123, 255, 0.16)",
-                  color: "#8DBDFF"
-                }
-              }}
-            >
-              AI
-            </Button>
-
-            <Button
-              component={Link}
-              href="/controls"
-              variant="contained"
-              sx={{
-                px: 3.2,
-                background:
-                  "linear-gradient(135deg, rgba(42, 116, 255, 0.95), rgba(71, 106, 255, 0.95))",
-                boxShadow: "0 14px 34px rgba(30, 123, 255, 0.28)",
-                "&:hover": {
-                  background:
-                    "linear-gradient(135deg, #1E7BFF 0%, #2A8DFF 100%)",
-                  boxShadow: "0 18px 46px rgba(30, 123, 255, 0.45)"
-                }
-              }}
-            >
-              Controls
-            </Button>
-          </Box>
-        </Box>
+        <Navbar />
 
         <Stack
           sx={{
             flexDirection: { xs: "column", md: "row" },
             alignItems: "center",
             justifyContent: "center",
-            gap: { xs: 4, md: 6 },
-            minHeight: { xs: "auto", md: "72vh" },
-            py: { xs: 5, md: 6 }
+            gap: { xs: 3, md: 6 },
+            minHeight: { xs: "auto", md: "calc(100vh - 120px)" },
+            pt: { xs: 2, md: 2 },
+            pb: { xs: 5, md: 6 }
           }}
         >
           <Stack
@@ -609,14 +908,13 @@ export default function Home() {
                 alignItems: { xs: "center", md: "flex-start" }
               }}
             >
-
               <Typography
                 variant="h1"
                 sx={{
                   maxWidth: 600,
                   fontSize: {
-                    xs: "2.9rem",
-                    sm: "3.8rem",
+                    xs: "2.35rem",
+                    sm: "3.4rem",
                     md: "4.5rem",
                     lg: "5.3rem"
                   },
@@ -670,12 +968,10 @@ export default function Home() {
                     px: 3,
                     color: "#FFFFFF",
                     background:
-                      "linear-gradient(135deg, rgba(48, 81, 228, 0.95), rgba(75, 69, 255, 0.95))",
-                    boxShadow: "0 12px 34px rgba(84, 76, 255, 0.28)",
+                      "linear-gradient(135deg, rgba(24, 50, 165, 0.95), rgba(67, 48, 236, 0.95))",
                     "&:hover": {
                       background:
-                        "linear-gradient(135deg, #1E7BFF 0%, #2D95FF 100%)",
-                      boxShadow: "0 16px 44px rgba(30, 123, 255, 0.42)"
+                        "linear-gradient(135deg, #1e47ec 0%, #1448ba 100%)"
                     }
                   }}
                 >
@@ -690,12 +986,12 @@ export default function Home() {
                   sx={{
                     px: 3,
                     color: "#FFFFFF",
-                    borderColor: "rgba(255, 255, 255, 0.32)",
+                    borderColor: "rgba(24, 50, 165, 0.95)",
                     background: "rgba(255, 255, 255, 0.055)",
                     backdropFilter: "blur(18px)",
                     "&:hover": {
                       color: "#FFFFFF",
-                      borderColor: "rgba(30, 123, 255, 0.8)",
+                      borderColor: "#1448ba",
                       background: "rgba(30, 123, 255, 0.2)"
                     }
                   }}
@@ -711,7 +1007,7 @@ export default function Home() {
               width: { xs: "100%", md: "50%" },
               alignItems: "center",
               justifyContent: "center",
-              minHeight: { xs: 360, md: 540 },
+              minHeight: { xs: 300, sm: 390, md: 540 },
               position: "relative",
               overflow: "hidden"
             }}
@@ -735,7 +1031,7 @@ export default function Home() {
             <Box
               sx={{
                 width: "100%",
-                height: { xs: 350, sm: 440, md: 530, lg: 570 },
+                height: { xs: 300, sm: 420, md: 530, lg: 570 },
                 position: "relative",
                 overflow: "hidden",
                 background: "transparent",
@@ -771,14 +1067,7 @@ export default function Home() {
           }}
         >
           {features.map((feature) => (
-            <Card
-              key={feature.title}
-              sx={{ 
-                background: "rgba(18, 25, 60, 0.82)",
-                border: "3px solid rgba(255, 255, 255, 0.12)",
-                backdropFilter: "blur(18px)"
-              }}
-            >
+            <Card key={feature.title}>
               <CardContent sx={{ p: 3 }}>
                 <Box
                   sx={{
@@ -789,7 +1078,7 @@ export default function Home() {
                     placeItems: "center",
                     mb: 2.5,
                     background:
-                      "linear-gradient(135deg, rgba(71, 106, 255, 0.42), rgba(127, 63, 255, 0.34))",
+                      "linear-gradient(135deg, rgba(71, 175, 255, 0.42), rgba(127, 63, 255, 0.34))",
                     color: "#FFFFFF"
                   }}
                 >
@@ -822,140 +1111,7 @@ export default function Home() {
           ))}
         </Box>
 
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr", lg: "1.1fr 0.9fr" },
-            gap: 2.5,
-            pb: 10
-          }}
-        >
-          <Card
-            sx={{
-              background:
-                "linear-gradient(135deg, rgba(20, 28, 68, 0.88), rgba(30, 22, 78, 0.84))",
-              border: "1px solid rgba(255, 255, 255, 0.12)",
-              boxShadow: "0 20px 46px rgba(0, 0, 0, 0.2)",
-              backdropFilter: "blur(18px)"
-            }}
-          >
-            <CardContent sx={{ p: { xs: 3, md: 5 } }}>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                <WavesRounded sx={{ color: "#55F2C2" }} />
-                <Typography
-                  sx={{
-                    fontSize: { xs: 28, md: 40 },
-                    fontWeight: 900,
-                    letterSpacing: "-0.06em",
-                    color: "#FFFFFF"
-                  }}
-                >
-                  Web app
-                </Typography>
-              </Box>
-
-              <Typography
-                sx={{
-                  mt: 2,
-                  mb: 4,
-                  maxWidth: 680,
-                  color: "rgba(247, 248, 255, 0.74)",
-                  fontSize: { xs: 15, md: 17 },
-                  lineHeight: 1.8
-                }}
-              >
-                The website should feel like the complete command center:
-                bigger graphs, deeper AI analysis, reports, device logs and
-                automation settings.
-              </Typography>
-
-              <Box
-                sx={{
-                  display: "grid",
-                  gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
-                  gap: 1.5
-                }}
-              >
-                {webFeatures.map((item) => (
-                  <Box
-                    key={item}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1.3,
-                      p: 1.6,
-                      borderRadius: "18px",
-                      background: "rgba(255, 255, 255, 0.08)",
-                      border: "1px solid rgba(255, 255, 255, 0.1)"
-                    }}
-                  >
-                    <AutoAwesome sx={{ color: "#A735FF" }} />
-                    <Typography fontWeight={700}>{item}</Typography>
-                  </Box>
-                ))}
-              </Box>
-            </CardContent>
-          </Card>
-
-          <Card
-            sx={{
-              background:
-                "linear-gradient(135deg, rgba(18, 30, 72, 0.88), rgba(18, 43, 92, 0.82))",
-              border: "1px solid rgba(255, 255, 255, 0.12)",
-              boxShadow: "0 20px 46px rgba(0, 0, 0, 0.2)",
-              backdropFilter: "blur(18px)"
-            }}
-          >
-            <CardContent sx={{ p: { xs: 3, md: 5 } }}>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                <SmartphoneRounded sx={{ color: "#1E7BFF" }} />
-                <Typography
-                  sx={{
-                    fontSize: { xs: 28, md: 40 },
-                    fontWeight: 900,
-                    letterSpacing: "-0.06em",
-                    color: "#FFFFFF"
-                  }}
-                >
-                  Mobile app
-                </Typography>
-              </Box>
-
-              <Typography
-                sx={{
-                  mt: 2,
-                  mb: 4,
-                  color: "rgba(247, 248, 255, 0.74)",
-                  fontSize: { xs: 15, md: 17 },
-                  lineHeight: 1.8
-                }}
-              >
-                The mobile version should stay fast and simple: emergency
-                alerts, quick status, and one-tap actions.
-              </Typography>
-
-              <Box sx={{ display: "grid", gap: 1.5 }}>
-                {mobileFeatures.map((item) => (
-                  <Box
-                    key={item}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1.3,
-                      p: 1.6,
-                      borderRadius: "18px",
-                      background: "rgba(255, 255, 255, 0.08)",
-                      border: "1px solid rgba(255, 255, 255, 0.1)"
-                    }}
-                  >
-                    <WaterDropRounded sx={{ color: "#1E7BFF" }} />
-                    <Typography fontWeight={700}>{item}</Typography>
-                  </Box>
-                ))}
-              </Box>
-            </CardContent>
-          </Card>
-        </Box>
+        <PlatformSection />
       </Stack>
     </Box>
   );

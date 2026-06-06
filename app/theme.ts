@@ -66,13 +66,19 @@ const theme = createTheme({
       }
     },
     MuiCard: {
-      styleOverrides: {
+    defaultProps: {
+        elevation: 0
+    },
+    styleOverrides: {
         root: {
-          backgroundImage: "none",
-          boxShadow: "0 24px 80px rgba(11, 11, 11, 0.45)",
-          backdropFilter: "blur(24px)"
+        background: "rgba(10, 30, 93, 0.72)",
+        backgroundImage: "none",
+        border: "3px solid rgba(13, 43, 104, 0.47)",
+        backdropFilter: "blur(18px)",
+        boxShadow: "none",
+        color: "#FFFFFF"
         }
-      }
+    }
     },
     MuiButton: {
       styleOverrides: {
