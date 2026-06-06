@@ -1,65 +1,766 @@
-import Image from "next/image";
+"use client";
+
+import Link from "next/link";
+import {
+  AutoAwesome,
+  BarChartRounded,
+  CloudQueueRounded,
+  NotificationsActiveRounded,
+  PsychologyRounded,
+  SettingsRemoteRounded,
+  SmartphoneRounded,
+  WaterDropRounded,
+  WavesRounded
+} from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  Stack,
+  Typography
+} from "@mui/material";
+
+const features = [
+  {
+    title: "Live Aquarium Data",
+    description:
+      "Track temperature, pH, turbidity and water level from a cloud dashboard.",
+    icon: <BarChartRounded />
+  },
+  {
+    title: "AI Recommendations",
+    description:
+      "Get smart explanations, warnings and suggestions based on sensor values.",
+    icon: <PsychologyRounded />
+  },
+  {
+    title: "Smart Alerts",
+    description:
+      "Detect unstable water conditions before they become dangerous for fish.",
+    icon: <NotificationsActiveRounded />
+  },
+  {
+    title: "Remote Control",
+    description:
+      "Control the feeder and aquarium lighting through secure cloud commands.",
+    icon: <SettingsRemoteRounded />
+  }
+];
+
+const webFeatures = [
+  "Advanced sensor analytics",
+  "Large historical graphs",
+  "AI-generated weekly reports",
+  "Automation rules",
+  "Device logs",
+  "Sensor calibration"
+];
+
+const mobileFeatures = [
+  "Quick live status",
+  "Push notifications",
+  "Emergency alerts",
+  "Feed now",
+  "Toggle light",
+  "Ask AI quickly"
+];
+
+function CoralDecor() {
+  return (
+    <>
+      <Box
+        component="svg"
+        viewBox="0 0 260 260"
+        sx={{
+          position: "absolute",
+          left: { xs: "-6%", md: "-2%" },
+          bottom: { xs: "4%", md: "5%" },
+          width: { xs: 130, sm: 160, md: 200, lg: 235 },
+          height: "auto",
+          opacity: 0.34,
+          filter: "blur(0.2px)",
+          zIndex: 1,
+          pointerEvents: "none"
+        }}
+      >
+        <path
+          d="M118 238c-5-28 2-54 16-77 11-18 14-39 8-57-6-16-2-31 9-42 8 8 11 19 9 30-2 11-9 20-13 30-3 9-1 18 5 24 9-7 18-15 26-24 12-13 20-28 24-46 13 14 16 32 8 49-6 13-19 23-24 37-3 8-1 18 7 24 14-8 24-21 34-33 10-12 17-26 21-42 13 17 15 38 4 56-7 12-20 21-29 32-11 14-18 30-18 49H118Z"
+          fill="url(#coralPink)"
+        />
+        <path
+          d="M62 240c-4-18 2-35 12-48 8-11 13-23 12-37-1-11 3-21 12-28 6 7 8 15 7 23-1 8-7 15-9 23-2 6 0 13 5 17 8-5 14-11 20-18 9-10 14-22 15-35 11 10 14 24 9 37-4 9-13 16-17 25-2 5-1 12 4 16 10-5 18-14 24-22 6-9 10-19 12-31 12 12 14 29 6 43-7 12-18 20-28 30-8 8-14 18-16 30H62Z"
+          fill="url(#coralBlue)"
+        />
+        <defs>
+          <linearGradient
+            id="coralPink"
+            x1="40"
+            y1="30"
+            x2="240"
+            y2="230"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#B93BFF" />
+            <stop offset="1" stopColor="#FF5ACD" />
+          </linearGradient>
+          <linearGradient
+            id="coralBlue"
+            x1="40"
+            y1="40"
+            x2="200"
+            y2="240"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#2D8CFF" />
+            <stop offset="1" stopColor="#5E5BFF" />
+          </linearGradient>
+        </defs>
+      </Box>
+
+      <Box
+        component="svg"
+        viewBox="0 0 280 260"
+        sx={{
+          position: "absolute",
+          right: { xs: "-8%", md: "-3%" },
+          bottom: { xs: "1%", md: "4%" },
+          width: { xs: 140, sm: 175, md: 225, lg: 255 },
+          height: "auto",
+          opacity: 0.28,
+          zIndex: 1,
+          pointerEvents: "none"
+        }}
+      >
+        <path
+          d="M175 240c-3-20 1-39 10-56 7-13 10-27 8-41-2-11 1-21 9-30 8 8 11 19 9 30-2 10-8 18-11 28-2 7-1 14 4 19 9-6 16-14 22-22 10-11 16-24 18-38 12 11 16 27 11 41-4 11-13 18-18 29-3 6-2 14 4 18 9-5 16-13 23-21 9-10 15-22 18-36 13 13 17 31 10 48-7 15-21 25-31 38-8 10-13 21-14 33h-72Z"
+          fill="url(#coralPurple)"
+        />
+        <path
+          d="M40 238c7-27 18-48 34-65 14-15 24-32 28-51 3-14 12-24 25-30 2 12-1 23-8 32-7 9-16 16-22 25-5 7-7 15-4 23 11-2 22-7 31-13 15-10 28-24 38-41 7 18 4 38-8 54-9 12-23 20-31 32-5 7-7 15-4 23 15-2 28-10 40-18 14-10 26-22 37-37 6 21 1 41-15 57-13 12-30 19-45 29-12 8-23 18-31 30H40Z"
+          fill="url(#coralLight)"
+        />
+        <defs>
+          <linearGradient
+            id="coralPurple"
+            x1="120"
+            y1="20"
+            x2="260"
+            y2="230"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#7A3DFF" />
+            <stop offset="1" stopColor="#A735FF" />
+          </linearGradient>
+          <linearGradient
+            id="coralLight"
+            x1="20"
+            y1="30"
+            x2="210"
+            y2="230"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#37A0FF" />
+            <stop offset="1" stopColor="#55F2C2" />
+          </linearGradient>
+        </defs>
+      </Box>
+
+      <Box
+        component="svg"
+        viewBox="0 0 180 260"
+        sx={{
+          position: "absolute",
+          left: { xs: "28%", md: "32%" },
+          bottom: { xs: "-2%", md: "0%" },
+          width: { xs: 80, sm: 95, md: 120, lg: 135 },
+          height: "auto",
+          opacity: 0.22,
+          zIndex: 1,
+          pointerEvents: "none"
+        }}
+      >
+        <path
+          d="M75 250c-2-25 0-48 9-68 7-17 11-33 8-51-2-16 3-31 16-43 9 13 11 28 5 43-5 12-16 21-19 34-2 9 1 18 9 24 13-8 24-20 34-32 10-13 18-27 22-45 14 19 15 41 4 59-9 14-24 25-34 39-9 13-14 26-13 40H75Z"
+          fill="url(#seaweed)"
+        />
+        <path
+          d="M35 250c2-23 8-43 20-60 9-13 14-28 13-45-1-14 5-26 17-34 5 13 4 26-4 37-7 10-17 17-22 29-3 8-2 17 5 23 12-5 22-14 31-24 9-10 16-22 21-36 9 18 7 37-6 52-10 12-24 20-34 32-7 8-12 17-15 26H35Z"
+          fill="url(#seaweed2)"
+        />
+        <defs>
+          <linearGradient
+            id="seaweed"
+            x1="40"
+            y1="70"
+            x2="160"
+            y2="250"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#52F2D0" />
+            <stop offset="1" stopColor="#237BFF" />
+          </linearGradient>
+          <linearGradient
+            id="seaweed2"
+            x1="20"
+            y1="90"
+            x2="120"
+            y2="250"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#40D9FF" />
+            <stop offset="1" stopColor="#7A3DFF" />
+          </linearGradient>
+        </defs>
+      </Box>
+
+      <Box
+        sx={{
+          position: "absolute",
+          left: "8%",
+          right: "8%",
+          bottom: "2%",
+          height: { xs: 46, md: 64 },
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(41,122,255,0.22) 0%, rgba(41,122,255,0.1) 42%, transparent 76%)",
+          filter: "blur(18px)",
+          zIndex: 0,
+          pointerEvents: "none"
+        }}
+      />
+    </>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Box
+      sx={{
+        minHeight: "100vh",
+        position: "relative",
+        overflow: "hidden",
+        background:
+          "radial-gradient(circle at 12% 12%, rgba(177, 43, 255, 0.62), transparent 30%), radial-gradient(circle at 18% 72%, rgba(21, 129, 255, 0.72), transparent 34%), radial-gradient(circle at 58% 48%, rgba(0, 87, 255, 0.55), transparent 30%), radial-gradient(circle at 88% 30%, rgba(36, 0, 130, 0.86), transparent 38%), linear-gradient(135deg, #090018 0%, #07115A 48%, #020515 100%)"
+      }}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(90deg, rgba(5, 8, 20, 0.22), rgba(5, 8, 20, 0.34)), radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.48) 88%)",
+          pointerEvents: "none"
+        }}
+      />
+
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 16,
+          border: "1px solid rgba(255, 255, 255, 0.09)",
+          borderRadius: "34px",
+          pointerEvents: "none"
+        }}
+      />
+
+      <Stack
+        sx={{
+          position: "relative",
+          zIndex: 1,
+          width: { xs: "90%", md: "80%" },
+          mx: "auto",
+          minHeight: "100vh"
+        }}
+      >
+        <Box
+          sx={{
+            py: { xs: 2.5, md: 3 },
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 2
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1.3
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            <Box
+              sx={{
+                width: 42,
+                height: 42,
+                borderRadius: "50%",
+                display: "grid",
+                placeItems: "center",
+                background:
+                  "linear-gradient(135deg, rgba(80, 96, 255, 0.95), rgba(127, 63, 255, 0.95))",
+                boxShadow: "0 0 28px rgba(68, 111, 255, 0.38)"
+              }}
+            >
+              <WaterDropRounded sx={{ fontSize: 20 }} />
+            </Box>
+
+            <Typography
+              sx={{
+                fontSize: { xs: 17, md: 21 },
+                fontWeight: 900,
+                letterSpacing: "-0.045em",
+                color: "#FFFFFF"
+              }}
+            >
+              SmartAIFishTank
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              gap: 2
+            }}
+          >
+            <Button
+              component={Link}
+              href="/dashboard"
+              color="inherit"
+              sx={{
+                color: "#FFFFFF",
+                fontWeight: 800,
+                px: 2.2,
+                "&:hover": {
+                  background: "rgba(30, 123, 255, 0.16)",
+                  color: "#8DBDFF"
+                }
+              }}
+            >
+              Dashboard
+            </Button>
+
+            <Button
+              component={Link}
+              href="/ai"
+              color="inherit"
+              sx={{
+                color: "#FFFFFF",
+                fontWeight: 800,
+                px: 2.2,
+                "&:hover": {
+                  background: "rgba(30, 123, 255, 0.16)",
+                  color: "#8DBDFF"
+                }
+              }}
+            >
+              AI
+            </Button>
+
+            <Button
+              component={Link}
+              href="/controls"
+              variant="contained"
+              sx={{
+                px: 3.2,
+                background:
+                  "linear-gradient(135deg, rgba(42, 116, 255, 0.95), rgba(71, 106, 255, 0.95))",
+                boxShadow: "0 14px 34px rgba(30, 123, 255, 0.28)",
+                "&:hover": {
+                  background:
+                    "linear-gradient(135deg, #1E7BFF 0%, #2A8DFF 100%)",
+                  boxShadow: "0 18px 46px rgba(30, 123, 255, 0.45)"
+                }
+              }}
+            >
+              Controls
+            </Button>
+          </Box>
+        </Box>
+
+        <Stack
+          sx={{
+            flexDirection: { xs: "column", md: "row" },
+            alignItems: "center",
+            justifyContent: "center",
+            gap: { xs: 4, md: 6 },
+            minHeight: { xs: "auto", md: "72vh" },
+            py: { xs: 5, md: 6 }
+          }}
+        >
+          <Stack
+            sx={{
+              width: { xs: "100%", md: "50%" },
+              gap: 3,
+              textAlign: { xs: "center", md: "left" },
+              alignItems: { xs: "center", md: "flex-start" }
+            }}
+          >
+            <Stack
+              sx={{
+                gap: 3,
+                alignItems: { xs: "center", md: "flex-start" }
+              }}
+            >
+              <Chip
+                icon={<CloudQueueRounded sx={{ fontSize: 16 }} />}
+                label="IoT + Cloud + AI Aquarium Monitoring"
+                sx={{
+                  width: "fit-content",
+                  height: 34,
+                  px: 1,
+                  color: "#F7F8FF",
+                  background: "rgba(255, 255, 255, 0.11)",
+                  border: "1px solid rgba(255, 255, 255, 0.2)",
+                  backdropFilter: "blur(18px)",
+                  "& .MuiChip-label": {
+                    px: 1,
+                    fontSize: "0.78rem",
+                    fontWeight: 800
+                  }
+                }}
+              />
+
+              <Typography
+                variant="h1"
+                sx={{
+                  maxWidth: 600,
+                  fontSize: {
+                    xs: "2.9rem",
+                    sm: "3.8rem",
+                    md: "4.5rem",
+                    lg: "5.3rem"
+                  },
+                  lineHeight: 0.92,
+                  color: "#FFFFFF",
+                  letterSpacing: "-0.075em",
+                  textShadow:
+                    "0 10px 46px rgba(0, 0, 0, 0.5), 0 0 34px rgba(30, 123, 255, 0.18)"
+                }}
+              >
+                Your aquarium,
+                <br />
+                but intelligent.
+              </Typography>
+            </Stack>
+
+            <Stack
+              sx={{
+                gap: 3,
+                alignItems: { xs: "center", md: "flex-start" }
+              }}
+            >
+              <Typography
+                sx={{
+                  maxWidth: 570,
+                  fontSize: { xs: "1rem", md: "1.08rem" },
+                  lineHeight: 1.85,
+                  color: "rgba(247, 248, 255, 0.78)"
+                }}
+              >
+                A Raspberry Pi-based system that monitors water quality, sends
+                data to the cloud, controls feeding and lighting, and uses AI to
+                explain what is happening inside the tank.
+              </Typography>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1.5,
+                  flexDirection: { xs: "column", sm: "row" },
+                  justifyContent: { xs: "center", md: "flex-start" },
+                  width: { xs: "100%", sm: "auto" }
+                }}
+              >
+                <Button
+                  component={Link}
+                  href="/dashboard"
+                  size="medium"
+                  variant="contained"
+                  sx={{
+                    px: 3,
+                    color: "#FFFFFF",
+                    background:
+                      "linear-gradient(135deg, rgba(95, 75, 255, 0.95), rgba(117, 69, 255, 0.95))",
+                    boxShadow: "0 12px 34px rgba(84, 76, 255, 0.28)",
+                    "&:hover": {
+                      background:
+                        "linear-gradient(135deg, #1E7BFF 0%, #2D95FF 100%)",
+                      boxShadow: "0 16px 44px rgba(30, 123, 255, 0.42)"
+                    }
+                  }}
+                >
+                  Open Dashboard
+                </Button>
+
+                <Button
+                  component={Link}
+                  href="/reports"
+                  size="medium"
+                  variant="outlined"
+                  sx={{
+                    px: 3,
+                    color: "#FFFFFF",
+                    borderColor: "rgba(255, 255, 255, 0.32)",
+                    background: "rgba(255, 255, 255, 0.055)",
+                    backdropFilter: "blur(18px)",
+                    "&:hover": {
+                      color: "#FFFFFF",
+                      borderColor: "rgba(30, 123, 255, 0.8)",
+                      background: "rgba(30, 123, 255, 0.2)"
+                    }
+                  }}
+                >
+                  View AI Reports
+                </Button>
+              </Box>
+            </Stack>
+          </Stack>
+
+          <Stack
+            sx={{
+              width: { xs: "100%", md: "50%" },
+              alignItems: "center",
+              justifyContent: "center",
+              minHeight: { xs: 360, md: 540 },
+              position: "relative",
+              overflow: "hidden"
+            }}
+          >
+            <CoralDecor />
+
+            <Box
+              sx={{
+                position: "absolute",
+                width: { xs: 280, sm: 380, md: 500, lg: 560 },
+                height: { xs: 280, sm: 380, md: 500, lg: 560 },
+                borderRadius: "50%",
+                background:
+                  "radial-gradient(circle, rgba(30, 123, 255, 0.23), transparent 65%)",
+                filter: "blur(8px)",
+                pointerEvents: "none",
+                zIndex: 0
+              }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+            <Box
+              sx={{
+                width: "100%",
+                height: { xs: 350, sm: 440, md: 530, lg: 570 },
+                position: "relative",
+                overflow: "hidden",
+                background: "transparent",
+                zIndex: 2
+              }}
+            >
+              <iframe
+                title="Spline Pufferfish"
+                src="https://my.spline.design/pufferfish-iJTUVa8ImvbqSH9663HA5377/"
+                width="100%"
+                height="100%"
+                style={{
+                  border: "none",
+                  display: "block",
+                  background: "transparent"
+                }}
+                allowFullScreen
+              />
+            </Box>
+          </Stack>
+        </Stack>
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              md: "repeat(2, 1fr)",
+              lg: "repeat(4, 1fr)"
+            },
+            gap: 2.5,
+            pb: 8
+          }}
+        >
+          {features.map((feature) => (
+            <Card
+              key={feature.title}
+              sx={{
+                background: "rgba(6, 10, 32, 0.58)"
+              }}
+            >
+              <CardContent sx={{ p: 3 }}>
+                <Box
+                  sx={{
+                    width: 46,
+                    height: 46,
+                    borderRadius: "16px",
+                    display: "grid",
+                    placeItems: "center",
+                    mb: 2.5,
+                    background:
+                      "linear-gradient(135deg, rgba(71, 106, 255, 0.42), rgba(127, 63, 255, 0.34))",
+                    color: "#FFFFFF"
+                  }}
+                >
+                  {feature.icon}
+                </Box>
+
+                <Typography
+                  sx={{
+                    fontSize: 22,
+                    fontWeight: 900,
+                    letterSpacing: "-0.04em",
+                    mb: 1,
+                    color: "#FFFFFF"
+                  }}
+                >
+                  {feature.title}
+                </Typography>
+
+                <Typography
+                  sx={{
+                    color: "rgba(247, 248, 255, 0.68)",
+                    lineHeight: 1.7,
+                    fontSize: "0.95rem"
+                  }}
+                >
+                  {feature.description}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", lg: "1.1fr 0.9fr" },
+            gap: 2.5,
+            pb: 10
+          }}
+        >
+          <Card
+            sx={{
+              background:
+                "linear-gradient(135deg, rgba(6, 10, 32, 0.72), rgba(20, 13, 62, 0.62))"
+            }}
           >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            <CardContent sx={{ p: { xs: 3, md: 5 } }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                <WavesRounded sx={{ color: "#55F2C2" }} />
+                <Typography
+                  sx={{
+                    fontSize: { xs: 28, md: 40 },
+                    fontWeight: 900,
+                    letterSpacing: "-0.06em",
+                    color: "#FFFFFF"
+                  }}
+                >
+                  Web app
+                </Typography>
+              </Box>
+
+              <Typography
+                sx={{
+                  mt: 2,
+                  mb: 4,
+                  maxWidth: 680,
+                  color: "rgba(247, 248, 255, 0.7)",
+                  fontSize: { xs: 15, md: 17 },
+                  lineHeight: 1.8
+                }}
+              >
+                The website should feel like the complete command center:
+                bigger graphs, deeper AI analysis, reports, device logs and
+                automation settings.
+              </Typography>
+
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+                  gap: 1.5
+                }}
+              >
+                {webFeatures.map((item) => (
+                  <Box
+                    key={item}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1.3,
+                      p: 1.6,
+                      borderRadius: "18px",
+                      background: "rgba(255, 255, 255, 0.07)",
+                      border: "1px solid rgba(255, 255, 255, 0.09)"
+                    }}
+                  >
+                    <AutoAwesome sx={{ color: "#A735FF" }} />
+                    <Typography fontWeight={700}>{item}</Typography>
+                  </Box>
+                ))}
+              </Box>
+            </CardContent>
+          </Card>
+
+          <Card
+            sx={{
+              background:
+                "linear-gradient(135deg, rgba(6, 10, 32, 0.72), rgba(7, 39, 98, 0.58))"
+            }}
+          >
+            <CardContent sx={{ p: { xs: 3, md: 5 } }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                <SmartphoneRounded sx={{ color: "#1E7BFF" }} />
+                <Typography
+                  sx={{
+                    fontSize: { xs: 28, md: 40 },
+                    fontWeight: 900,
+                    letterSpacing: "-0.06em",
+                    color: "#FFFFFF"
+                  }}
+                >
+                  Mobile app
+                </Typography>
+              </Box>
+
+              <Typography
+                sx={{
+                  mt: 2,
+                  mb: 4,
+                  color: "rgba(247, 248, 255, 0.7)",
+                  fontSize: { xs: 15, md: 17 },
+                  lineHeight: 1.8
+                }}
+              >
+                The mobile version should stay fast and simple: emergency
+                alerts, quick status, and one-tap actions.
+              </Typography>
+
+              <Box sx={{ display: "grid", gap: 1.5 }}>
+                {mobileFeatures.map((item) => (
+                  <Box
+                    key={item}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1.3,
+                      p: 1.6,
+                      borderRadius: "18px",
+                      background: "rgba(255, 255, 255, 0.07)",
+                      border: "1px solid rgba(255, 255, 255, 0.09)"
+                    }}
+                  >
+                    <WaterDropRounded sx={{ color: "#1E7BFF" }} />
+                    <Typography fontWeight={700}>{item}</Typography>
+                  </Box>
+                ))}
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+      </Stack>
+    </Box>
   );
 }
