@@ -8,9 +8,12 @@ const inter = Inter({
   weight: ["400", "500", "600", "700", "800", "900"]
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Smart AI Fish Tank",
-  description: "IoT, cloud and AI-powered aquarium monitoring system"
+  description: "AI-powered aquarium monitoring system",
+  icons: {
+    icon: "/logo1.png"
+  }
 };
 
 export default function RootLayout({
