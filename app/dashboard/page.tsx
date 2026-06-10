@@ -1,5 +1,8 @@
 "use client";
 
+// Added fo AWS Cloud
+import { useEffect, useState } from "react";
+
 import {
   DeviceThermostatRounded,
   OpacityRounded,
@@ -17,6 +20,17 @@ import {
   Typography
 } from "@mui/material";
 import AppPageShell from "../components/AppPageShell";
+
+// Added for AWS Cloud
+const API_URL = "https://aa18r6g19f.execute-api.eu-north-1.amazonaws.com";
+
+type FishTankReading = {
+  deviceId: string;
+  timestamp?: number;
+  temperature?: number;
+  waterLevel?: number;
+  turbidity?: number;
+};
 
 const metrics = [
   {
@@ -358,7 +372,68 @@ function SensorLineChart({
   );
 }
 
+// Modified for AWS Cloud
 export default function DashboardPage() {
+  const [latest, setLatest] = useState<FishTankReading | null>(null);
+  const [history, setHistory] = useState<FishTankReading[]>([]);
+
+  useEffect(() => {
+    async function loadData() {
+      const latestResponse = await fetch(`${API_URL}/latest`);
+      const latestData = await latestResponse.json();
+
+      const historyResponse = await fetch(`${API_URL}/history`);
+      const historyData = await historyResponse.json();
+
+      setLatest(latestData);
+      setHistory(Array.isArray(historyData) ? historyData.reverse() : []);
+    }
+
+    loadData();
+    const interval = setInterval(loadData, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const liveMetrics = [
+    {
+      label: "Temperature",
+      value: latest?.temperature !== undefined ? `${latest.temperature}°C` : "—",
+      status: "Live from AWS",
+      icon: <DeviceThermostatRounded />,
+      color: "#55F2C2"
+    },
+    {
+      label: "Turbidity",
+      value: latest?.turbidity !== undefined ? `${latest.turbidity} NTU` : "—",
+      status: "Live from AWS",
+      icon: <OpacityRounded />,
+      color: "#A735FF"
+    },
+    {
+      label: "Water Level",
+      value: latest?.waterLevel !== undefined ? `${latest.waterLevel}%` : "—",
+      status: "Live from AWS",
+      icon: <WaterDropRounded />,
+      color: "#1E7BFF"
+    }
+  ];
+
+  const temperatureHistory = history.map((item) => ({
+    time: item.timestamp ? new Date(item.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "",
+    value: item.temperature ?? 0
+  }));
+
+  const turbidityHistory = history.map((item) => ({
+    time: item.timestamp ? new Date(item.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "",
+    value: item.turbidity ?? 0
+  }));
+
+  const waterLevelHistory = history.map((item) => ({
+    time: item.timestamp ? new Date(item.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "",
+    value: item.waterLevel ?? 0
+  }));
+
   return (
     <AppPageShell
       eyebrow="Cloud dashboard"
@@ -376,7 +451,7 @@ export default function DashboardPage() {
           mb: 3
         }}
       >
-        {metrics.map((metric) => (
+        {liveMetrics.map((metric) => (
           <Card key={metric.label}>
             <CardContent sx={{ p: 3 }}>
               <Box
@@ -450,7 +525,7 @@ export default function DashboardPage() {
         <SensorLineChart
           title="Temperature over time"
           description="Daily temperature trend from morning to evening."
-          data={temperatureData}
+          data={temperatureHistory.length > 1 ? temperatureHistory : temperatureData}
           unit="°C"
           color="#55F2C2"
           min={23.8}
@@ -460,7 +535,7 @@ export default function DashboardPage() {
         <SensorLineChart
           title="Turbidity over time"
           description="Higher values can indicate cloudy water after feeding."
-          data={turbidityData}
+          data={turbidityHistory.length > 1 ? turbidityHistory : turbidityData}
           unit=" NTU"
           color="#A735FF"
           min={0}
@@ -470,7 +545,7 @@ export default function DashboardPage() {
         <SensorLineChart
           title="Water level over time"
           description="Water level slowly decreases during the day."
-          data={waterLevelData}
+          data={waterLevelHistory.length > 1 ? waterLevelHistory : waterLevelData}
           unit="%"
           color="#1E7BFF"
           min={80}
