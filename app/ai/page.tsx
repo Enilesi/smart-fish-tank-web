@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import {
   AutoAwesomeRounded,
   DeviceThermostatRounded,
@@ -20,6 +22,8 @@ import {
   Typography
 } from "@mui/material";
 import AppPageShell from "../components/AppPageShell";
+
+const API_URL = "https://aa18r6g19f.execute-api.eu-north-1.amazonaws.com";
 
 const currentReadings = [
   {
@@ -97,7 +101,83 @@ const aiSteps = [
   "Generate a clear recommendation for the owner."
 ];
 
+type FishTankReading = {
+  deviceId: string;
+  timestamp?: number;
+  temperature?: number;
+  waterLevel?: number;
+  turbidity?: number;
+  turbidityVoltage?: number;
+  turbidityStatus?: string;
+};
+
+type AISummaryResponse = {
+  reading: FishTankReading;
+  summary: string;
+};
+
 export default function AIPage() {
+  const [aiData, setAiData] = useState<AISummaryResponse | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function loadAISummary() {
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${API_URL}/ai-summary`);
+      const data = await response.json();
+      setAiData(data);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadAISummary();
+  }, []);
+
+  const liveReadings = aiData
+    ? [
+        {
+          label: "Temperature",
+          value:
+            aiData.reading.temperature !== undefined
+              ? `${aiData.reading.temperature}°C`
+              : "—",
+          context: "Live from AWS + AI",
+          icon: <DeviceThermostatRounded />,
+          color: "#55F2C2"
+        },
+        {
+          label: "Turbidity",
+          value:
+            aiData.reading.turbidity !== undefined
+              ? `${aiData.reading.turbidity} raw`
+              : "—",
+          context: aiData.reading.turbidityStatus ?? "Live from AWS + AI",
+          icon: <OpacityRounded />,
+          color: "#A735FF"
+        },
+        {
+          label: "Water Level",
+          value:
+            aiData.reading.waterLevel !== undefined
+              ? `${aiData.reading.waterLevel}%`
+              : "—",
+          context: "Live from AWS + AI",
+          icon: <WaterDropRounded />,
+          color: "#1E7BFF"
+        },
+        {
+          label: "AI status",
+          value: "Ready",
+          context: "Gemini / fallback summary",
+          icon: <PsychologyRounded />,
+          color: "#55F2C2"
+        }
+      ]
+    : currentReadings;
+
   return (
     <AppPageShell
       eyebrow="AI assistant"
@@ -116,7 +196,7 @@ export default function AIPage() {
           mb: 3
         }}
       >
-        {currentReadings.map((reading) => (
+        {liveReadings.map((reading) => (
           <Card key={reading.label}>
             <CardContent sx={{ p: 3 }}>
               <Box
@@ -238,9 +318,9 @@ export default function AIPage() {
               }}
             />
 
-            <Button variant="contained" fullWidth>
-              Generate recommendation
-            </Button>
+	    <Button variant="contained" fullWidth onClick={loadAISummary} disabled={loading}>
+		{loading ? "Generating..." : "Generate recommendation"}
+	    </Button>
           </CardContent>
         </Card>
 
@@ -331,12 +411,7 @@ export default function AIPage() {
                   lineHeight: 1.9
                 }}
               >
-                Your aquarium appears stable. Temperature is safe, water level is
-                still high enough, and turbidity is low. However, turbidity
-                increased after the last feeding, so the next feeding should be
-                smaller. If turbidity keeps rising after feeder events, pause the
-                feeder temporarily and check whether uneaten food remains in the
-                tank.
+                {aiData?.summary ?? "Loading AI recommendation from AWS..."}
               </Typography>
             </Box>
 
