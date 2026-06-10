@@ -28,60 +28,60 @@ const API_URL = "https://aa18r6g19f.execute-api.eu-north-1.amazonaws.com";
 const currentReadings = [
   {
     label: "Temperature",
-    value: "24.8°C",
-    context: "Stable and safe",
+    value: "—",
+    context: "Waiting for AWS data",
     icon: <DeviceThermostatRounded />,
     color: "#55F2C2"
   },
   {
     label: "Turbidity",
-    value: "Low",
-    context: "Slight increase after feeding",
+    value: "—",
+    context: "Waiting for AWS data",
     icon: <OpacityRounded />,
     color: "#A735FF"
   },
   {
     label: "Water Level",
-    value: "91%",
-    context: "Enough for normal operation",
+    value: "—",
+    context: "Waiting for AWS data",
     icon: <WaterDropRounded />,
     color: "#1E7BFF"
   },
   {
-    label: "Feeder activity",
-    value: "3x today",
-    context: "Last feeding at 19:00",
-    icon: <RestaurantRounded />,
+    label: "AI status",
+    value: "Ready",
+    context: "Gemini / fallback summary",
+    icon: <PsychologyRounded />,
     color: "#55F2C2"
   }
 ];
 
 const insights = [
   {
-    title: "Temperature is stable",
+    title: "Temperature analysis",
     text:
-      "The current temperature is inside the expected range. No immediate action is needed.",
+      "The assistant checks if the current temperature is inside the recommended range.",
     icon: <AutoAwesomeRounded />,
     color: "#55F2C2"
   },
   {
-    title: "Turbidity increased after feeding",
+    title: "Turbidity analysis",
     text:
-      "The water became slightly cloudier after feeding. This can happen when food particles remain suspended in the water.",
+      "The assistant looks at turbidity values to detect cloudy water, feeding effects or possible filter issues.",
     icon: <ReportProblemRounded />,
     color: "#A735FF"
   },
   {
-    title: "Water level is safe",
+    title: "Water level analysis",
     text:
-      "The water level is still high enough, but it slowly decreased during the day and should continue to be monitored.",
+      "The assistant checks whether the water level is safe or if the tank may need refilling.",
     icon: <WaterDropRounded />,
     color: "#1E7BFF"
   },
   {
     title: "Feeder recommendation",
     text:
-      "Keep the next feeding small. If turbidity continues to rise after feeding, pause the feeder temporarily.",
+      "The assistant can answer feeding-related questions based on turbidity and current tank condition.",
     icon: <TipsAndUpdatesRounded />,
     color: "#55F2C2"
   }
@@ -96,8 +96,8 @@ const suggestedQuestions = [
 
 const aiSteps = [
   "Read latest temperature, turbidity and water level values.",
-  "Check recent feeder events and feeding times.",
-  "Compare current values with previous readings.",
+  "Receive the user question from the web app.",
+  "Analyze the question together with the latest sensor readings.",
   "Generate a clear recommendation for the owner."
 ];
 
@@ -112,28 +112,40 @@ type FishTankReading = {
 };
 
 type AISummaryResponse = {
+  question?: string;
   reading: FishTankReading;
   summary: string;
 };
 
 export default function AIPage() {
+  const [question, setQuestion] = useState("");
   const [aiData, setAiData] = useState<AISummaryResponse | null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function loadAISummary() {
+  async function loadAISummary(customQuestion?: string) {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/ai-summary`);
+      const finalQuestion =
+        customQuestion?.trim() ||
+        question.trim() ||
+        "What is the current aquarium status?";
+
+      const response = await fetch(
+        `${API_URL}/ai-summary?question=${encodeURIComponent(finalQuestion)}`
+      );
+
       const data = await response.json();
       setAiData(data);
+    } catch (error) {
+      console.error("Failed to load AI recommendation", error);
     } finally {
       setLoading(false);
     }
   }
 
   useEffect(() => {
-    loadAISummary();
+    loadAISummary("What is the current aquarium status?");
   }, []);
 
   const liveReadings = aiData
@@ -292,14 +304,17 @@ export default function AIPage() {
                 mb: 3
               }}
             >
-              The AI assistant should receive the latest sensor values and feeder
-              logs, then explain what is happening in simple language.
+              The AI assistant receives your question together with the latest
+              AWS sensor values, then explains what is happening in simple
+              language.
             </Typography>
 
             <TextField
               multiline
               minRows={8}
               fullWidth
+              value={question}
+              onChange={(event) => setQuestion(event.target.value)}
               placeholder="Example: Should I feed the fish again if turbidity increased after the last feeding?"
               sx={{
                 mb: 2.5,
@@ -318,9 +333,14 @@ export default function AIPage() {
               }}
             />
 
-	    <Button variant="contained" fullWidth onClick={loadAISummary} disabled={loading}>
-		{loading ? "Generating..." : "Generate recommendation"}
-	    </Button>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={() => loadAISummary()}
+              disabled={loading}
+            >
+              {loading ? "Generating..." : "Generate recommendation"}
+            </Button>
           </CardContent>
         </Card>
 
@@ -408,10 +428,11 @@ export default function AIPage() {
               <Typography
                 sx={{
                   color: "rgba(247, 248, 255, 0.78)",
-                  lineHeight: 1.9
+                  lineHeight: 1.9,
+                  whiteSpace: "pre-line"
                 }}
               >
-                {aiData?.summary ?? "Loading AI recommendation from AWS..."}
+                {aiData?.summary ?? "Ask a question and press Generate recommendation."}
               </Typography>
             </Box>
 
@@ -422,13 +443,23 @@ export default function AIPage() {
                 gap: 1.4
               }}
             >
-              {suggestedQuestions.map((question) => (
+              {suggestedQuestions.map((suggestedQuestion) => (
                 <Box
-                  key={question}
+                  key={suggestedQuestion}
+                  onClick={() => {
+                    setQuestion(suggestedQuestion);
+                    loadAISummary(suggestedQuestion);
+                  }}
                   sx={{
                     p: 1.7,
                     borderRadius: "20px",
-                    background: "rgba(255,255,255,0.07)"
+                    background: "rgba(255,255,255,0.07)",
+                    cursor: "pointer",
+                    transition: "0.2s ease",
+                    "&:hover": {
+                      background: "rgba(255,255,255,0.12)",
+                      transform: "translateY(-2px)"
+                    }
                   }}
                 >
                   <Typography
@@ -438,7 +469,7 @@ export default function AIPage() {
                       lineHeight: 1.6
                     }}
                   >
-                    {question}
+                    {suggestedQuestion}
                   </Typography>
                 </Box>
               ))}
@@ -457,7 +488,7 @@ export default function AIPage() {
                 mb: 3
               }}
             >
-              How the AI should think
+              How the AI thinks
             </Typography>
 
             <Stack sx={{ gap: 1.5 }}>
@@ -517,9 +548,10 @@ export default function AIPage() {
                   fontWeight: 700
                 }}
               >
-                Later, this page can call your backend with the current readings
-                and feeder logs. The backend can send that data to an AI model
-                and return a recommendation.
+                The frontend sends your question to API Gateway. AWS Lambda
+                reads the latest DynamoDB sensor values and generates a response
+                using Gemini when available or local fallback logic if the AI
+                API is rate-limited.
               </Typography>
             </Box>
           </CardContent>
