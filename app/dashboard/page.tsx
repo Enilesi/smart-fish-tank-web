@@ -21,6 +21,14 @@ import AppPageShell from "../components/AppPageShell";
 
 const API_URL = "https://aa18r6g19f.execute-api.eu-north-1.amazonaws.com";
 
+type FeederLog = {
+  deviceId: string;
+  timestamp: number;
+  feedingTime?: string;
+  feedingType?: string;
+  portion?: string;
+};
+
 type FishTankReading = {
   deviceId: string;
   timestamp?: number;
@@ -51,12 +59,6 @@ type SensorLineChartProps = {
   min: number;
   max: number;
 };
-
-const feedingEvents = [
-  { time: "08:30", type: "Scheduled", amount: "Small portion" },
-  { time: "13:15", type: "Manual", amount: "Quick feed" },
-  { time: "19:00", type: "Scheduled", amount: "Small portion" }
-];
 
 const activity = [
   "Temperature, turbidity and water level are collected from the Raspberry Pi sensors.",
@@ -549,28 +551,45 @@ function SensorLineChart({
 export default function DashboardPage() {
   const [latest, setLatest] = useState<FishTankReading | null>(null);
   const [history, setHistory] = useState<FishTankReading[]>([]);
+  const [feederLogs, setFeederLogs] = useState<FeederLog[]>([]);
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const latestResponse = await fetch(`${API_URL}/latest`);
-        const latestData = await latestResponse.json();
+  async function loadFeederLogs() {
+  try {
+    const response = await fetch(`${API_URL}/feeder-logs`);
+    const data = await response.json();
 
-        const historyResponse = await fetch(`${API_URL}/history`);
-        const historyData = await historyResponse.json();
+    setFeederLogs(Array.isArray(data) ? data : []);
+  } catch (error) {
+    console.error("Failed to load feeder logs", error);
+  }
+}
 
-        setLatest(latestData);
-        setHistory(Array.isArray(historyData) ? historyData : []);
-      } catch (error) {
-        console.error("Failed to load fish tank data", error);
-      }
-    }
+	useEffect(() => {
+	  async function loadData() {
+	    try {
+	      const latestResponse = await fetch(`${API_URL}/latest`);
+	      const latestData = await latestResponse.json();
 
-    loadData();
-    const interval = setInterval(loadData, 10000);
+	      const historyResponse = await fetch(`${API_URL}/history`);
+	      const historyData = await historyResponse.json();
 
-    return () => clearInterval(interval);
-  }, []);
+	      setLatest(latestData);
+	      setHistory(Array.isArray(historyData) ? historyData : []);
+	    } catch (error) {
+	      console.error("Failed to load fish tank data", error);
+	    }
+	  }
+
+	  loadData();
+	  loadFeederLogs();
+
+	  const interval = setInterval(() => {
+	    loadData();
+	    loadFeederLogs();
+	  }, 10000);
+
+	  return () => clearInterval(interval);
+	}, []);
 
   const dailyAverages: DailyAverage[] = getDailyAverages(history);
 
@@ -622,6 +641,25 @@ export default function DashboardPage() {
       color: "#1E7BFF"
     }
   ];
+
+  const sortedFeederLogs = [...feederLogs].sort(
+  (first, second) => second.timestamp - first.timestamp
+);
+
+  const latestFeeding = sortedFeederLogs[0];
+
+  const usedToday = feederLogs.length;
+
+  const lastFeedTime = latestFeeding
+  ? new Date(latestFeeding.timestamp * 1000).toLocaleTimeString("ro-RO", {
+      hour: "2-digit",
+      minute: "2-digit"
+    })
+  : "—";
+
+  const feederMode = feederLogs.some((log) => log.feedingType === "scheduled")
+  ? "Auto"
+  : "Manual";
 
   return (
     <AppPageShell
@@ -771,7 +809,7 @@ export default function DashboardPage() {
                     mt: 0.5
                   }}
                 >
-                  This should come from feeder logs, not from a sensor.
+                  Feeding events are loaded from DynamoDB feeder logs.
                 </Typography>
               </Box>
 
@@ -821,7 +859,7 @@ export default function DashboardPage() {
                       letterSpacing: "-0.06em"
                     }}
                   >
-                    3x
+                    {usedToday}x
                   </Typography>
                 </Box>
 
@@ -850,7 +888,7 @@ export default function DashboardPage() {
                       letterSpacing: "-0.06em"
                     }}
                   >
-                    19:00
+                    {lastFeedTime}
                   </Typography>
                 </Box>
 
@@ -879,60 +917,73 @@ export default function DashboardPage() {
                       letterSpacing: "-0.06em"
                     }}
                   >
-                    Auto
+                    {feederMode}
                   </Typography>
                 </Box>
               </Box>
 
               <Stack sx={{ gap: 1.3 }}>
-                {feedingEvents.map((event) => (
-                  <Box
-                    key={`${event.time}-${event.type}`}
-                    sx={{
-                      p: 1.6,
-                      borderRadius: "20px",
-                      background: "rgba(255,255,255,0.07)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      gap: 2
-                    }}
-                  >
-                    <Box>
-                      <Typography
-                        sx={{
-                          color: "#FFFFFF",
-                          fontWeight: 900,
-                          letterSpacing: "-0.03em"
-                        }}
-                      >
-                        {event.time}
-                      </Typography>
+		  {sortedFeederLogs.slice(0, 4).map((log) => (
+		    <Box
+		      key={log.timestamp}
+		      sx={{
+			p: 1.6,
+			borderRadius: "20px",
+			background: "rgba(255,255,255,0.07)",
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "space-between",
+			gap: 2
+		      }}
+		    >
+		      <Box>
+			<Typography
+			  sx={{
+			    color: "#FFFFFF",
+			    fontWeight: 900,
+			    letterSpacing: "-0.03em"
+			  }}
+			>
+			  {new Date(log.timestamp * 1000).toLocaleTimeString("ro-RO", {
+			    hour: "2-digit",
+			    minute: "2-digit"
+			  })}
+			</Typography>
 
-                      <Typography
-                        sx={{
-                          color: "rgba(247,248,255,0.58)",
-                          fontSize: 13,
-                          fontWeight: 700
-                        }}
-                      >
-                        {event.amount}
-                      </Typography>
-                    </Box>
+			<Typography
+			  sx={{
+			    color: "rgba(247,248,255,0.58)",
+			    fontSize: 13,
+			    fontWeight: 700
+			  }}
+			>
+			  {log.portion ?? "small"} portion
+			</Typography>
+		      </Box>
 
-                    <Typography
-                      sx={{
-                        color:
-                          event.type === "Scheduled" ? "#55F2C2" : "#1E7BFF",
-                        fontWeight: 900,
-                        fontSize: "0.86rem"
-                      }}
-                    >
-                      {event.type}
-                    </Typography>
-                  </Box>
-                ))}
-              </Stack>
+		      <Typography
+			sx={{
+			  color: log.feedingType === "scheduled" ? "#55F2C2" : "#1E7BFF",
+			  fontWeight: 900,
+			  fontSize: "0.86rem"
+			}}
+		      >
+			{log.feedingType === "scheduled" ? "Scheduled" : "Manual"}
+		      </Typography>
+		    </Box>
+		  ))}
+
+		  {sortedFeederLogs.length === 0 && (
+		    <Typography
+		      sx={{
+			color: "rgba(247, 248, 255, 0.62)",
+			fontWeight: 700
+		      }}
+		    >
+		      No feeder logs found yet.
+		    </Typography>
+		  )}
+		</Stack>
             </Box>
           </CardContent>
         </Card>
